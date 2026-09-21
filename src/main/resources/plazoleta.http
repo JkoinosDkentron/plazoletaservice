@@ -1,0 +1,82 @@
+### Ejecutar primero usersservice (8081) y plazoletaservice (8082).
+### Cambiar email/documento si ya existen, y copiar el id de la respuesta en ownerId.
+@usersUrl = http://localhost:8081/api/v1/users
+@restaurantsUrl = http://localhost:8082/api/v1/restaurants
+@ownerId = REPLACE_WITH_CREATED_OWNER_UUID
+
+### Crear propietario - 201
+POST {{usersUrl}}/owners
+Content-Type: application/json
+
+{
+  "name": "Ana",
+  "lastName": "Perez",
+  "document": "987654321",
+  "phone": "+573001234567",
+  "birthDate": "1990-01-01",
+  "email": "ana.hu2@example.com",
+  "password": "ExamplePassword123"
+}
+
+### Validar propietario - 200, exists=true y owner=true
+GET {{usersUrl}}/{{ownerId}}/owner-validation
+
+### Crear restaurante - 201, devuelve UUID y los datos guardados
+POST {{restaurantsUrl}}
+Content-Type: application/json
+
+{
+  "name": "Pizza 123",
+  "nit": "900123456",
+  "address": "Calle 10 #20-30",
+  "phone": "+573001234567",
+  "urlLogo": "https://example.com/logo.png",
+  "ownerId": "{{ownerId}}"
+}
+
+### Usuario inexistente - 400 (usar un UUID que no exista)
+POST {{restaurantsUrl}}
+Content-Type: application/json
+
+{
+  "name": "Pizza 123",
+  "nit": "900123456",
+  "address": "Calle 10",
+  "phone": "3001234567",
+  "urlLogo": "https://example.com/logo.png",
+  "ownerId": "00000000-0000-0000-0000-000000000000"
+}
+
+### Nombre numerico con espacios - 400 sin consultar usuarios
+POST {{restaurantsUrl}}
+Content-Type: application/json
+
+{
+  "name": " 123 ",
+  "nit": "900123456",
+  "address": "Calle 10",
+  "phone": "3001234567",
+  "urlLogo": "https://example.com/logo.png",
+  "ownerId": "{{ownerId}}"
+}
+
+### Direccion vacia - 400
+POST {{restaurantsUrl}}
+Content-Type: application/json
+
+{
+  "name": "Pizza",
+  "nit": "900123456",
+  "address": " ",
+  "phone": "3001234567",
+  "urlLogo": "https://example.com/logo.png",
+  "ownerId": "{{ownerId}}"
+}
+
+### UUID mal formado - 400
+GET {{usersUrl}}/invalid/owner-validation
+
+### Para comprobar 503: detener usersservice y repetir la creacion valida.
+### Para comprobar rol incorrecto: usar el UUID de un CLIENT/EMPLOYEE/ADMIN existente.
+### OpenAPI
+GET http://localhost:8082/v3/api-docs

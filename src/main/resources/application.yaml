@@ -1,3 +1,10 @@
 spring:
   application:
     name: plazoletaservice
+  cloud:
+    openfeign:
+      client:
+        config:
+          users-service:
+            connectTimeout: 2000
+            readTimeout: 3000
