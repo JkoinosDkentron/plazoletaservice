@@ -48,6 +48,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
 	testImplementation 'org.mockito:mockito-core'
 	testImplementation 'org.mockito:mockito-junit-jupiter'
+	testImplementation 'com.tngtech.archunit:archunit:1.5.0'
 	testImplementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 
 	testCompileOnly 'org.projectlombok:lombok'

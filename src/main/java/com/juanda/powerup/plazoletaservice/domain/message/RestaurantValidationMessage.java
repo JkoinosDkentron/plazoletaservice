@@ -1,6 +1,7 @@
 package com.juanda.powerup.plazoletaservice.domain.message;
 
 public final class RestaurantValidationMessage {
+    public static final String RESTAURANT_DATA_REQUIRED = "Restaurant data is required";
     public static final String RESTAURANT_FIELDS_REQUIRED =
             "Restaurant identifiers, name, nit and phone are required";
     public static final String RESTAURANT_ADDRESS_REQUIRED = "Restaurant address is required";
