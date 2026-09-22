@@ -18,7 +18,7 @@ public record RestaurantName(String value) {
         }
 
 
-        value = value.trim();
+        value = value.strip();
         if (value.matches(ONLY_NUMBERS)) {
             throw new InvalidRestaurantException(
                     RESTAURANT_NAME_ONLY_NUMBERS
